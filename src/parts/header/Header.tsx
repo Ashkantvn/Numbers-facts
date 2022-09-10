@@ -1,22 +1,33 @@
 import { useForm } from "react-hook-form";
-import { BaseSyntheticEvent ,useState } from "react";
-
-
+import { BaseSyntheticEvent, useState } from "react";
+import * as yup from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 const Header = () => {
   const [selectedType, setselectedType] = useState<string | null>(null);
-  const { register, handleSubmit } = useForm();
-
-
+  ////schema of form element with yup and useform hook
+  const schema = yup.object().shape({
+    type: yup.string().required(),
+    number : yup.number().integer().min(0),
+    year : yup.number().integer(),
+    month : yup.number().integer().positive(),
+    day : yup.number().integer().positive(),
+    math_number : yup.number().integer().min(0)
+  });
+  
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
+  
   ////submit and select functions
-  const handleSelect = (e:BaseSyntheticEvent) => {
+  const handleSelect = (e: BaseSyntheticEvent) => {
     setselectedType((selectedType) => (selectedType = e.target.value));
   };
   const onSubmit = (data: {}): void => {
     console.log(data);
   };
 
-  ////return inputs by type 
+  ////return inputs by type
   const inputNumber = (): JSX.Element => {
     switch (selectedType) {
       case "trivia":
@@ -31,10 +42,10 @@ const Header = () => {
       case "year":
         return (
           <>
-          <label>
-            Enter year :
-            <input type="number" {...register("year")} />
-          </label>
+            <label>
+              Enter year :
+              <input type="number" {...register("year")} />
+            </label>
           </>
         );
       case "date":
@@ -50,21 +61,20 @@ const Header = () => {
             </label>
           </>
         );
-        case"math":
-        return(
+      case "math":
+        return (
           <>
-          <label>
-            Enter math number:
-            <input type="number" {...register("mathNumber")} />
-          </label>
+            <label>
+              Enter math number:
+              <input type="number" {...register("math_number")} />
+            </label>
           </>
         );
       default:
         return <></>;
-    };
+    }
   };
 
-  
   return (
     <header>
       <h1>Numbers fact</h1>
