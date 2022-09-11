@@ -1,24 +1,28 @@
 import { useForm } from "react-hook-form";
 import { BaseSyntheticEvent, useState } from "react";
 import * as yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Header = () => {
   const [selectedType, setselectedType] = useState<string | null>(null);
   ////schema of form element with yup and useform hook
   const schema = yup.object().shape({
     type: yup.string().required(),
-    number : yup.number().integer().min(0),
-    year : yup.number().integer(),
-    month : yup.number().integer().positive(),
-    day : yup.number().integer().positive(),
-    math_number : yup.number().integer().min(0)
+    number: yup.number().integer().min(0),
+    year: yup.number().integer(),
+    month: yup.number().integer().positive(),
+    day: yup.number().integer().positive(),
+    math_number: yup.number().integer().min(0),
   });
-  
-  const { register, handleSubmit } = useForm({
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
-  
+
   ////submit and select functions
   const handleSelect = (e: BaseSyntheticEvent) => {
     setselectedType((selectedType) => (selectedType = e.target.value));
@@ -75,6 +79,9 @@ const Header = () => {
     }
   };
 
+  const errorMessage: string = errors.type?.message
+    ? String(errors.type?.message)
+    : "";
   return (
     <header>
       <h1>Numbers fact</h1>
@@ -92,7 +99,9 @@ const Header = () => {
         <div>{inputNumber()}</div>
         <button type="submit">Submit</button>
       </form>
+      <p>{errorMessage}</p>
     </header>
   );
 };
+
 export default Header;
