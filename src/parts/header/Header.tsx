@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { BaseSyntheticEvent, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import "./header.css";
+
 
 const Header = () => {
   const [selectedType, setselectedType] = useState<string | null>(null);
@@ -27,6 +29,8 @@ const Header = () => {
   const handleSelect = (e: BaseSyntheticEvent) => {
     setselectedType((selectedType) => (selectedType = e.target.value));
   };
+
+
   const onSubmit = (data: {}): void => {
     console.log(data);
   };
@@ -57,7 +61,7 @@ const Header = () => {
           <>
             <label>
               Enter day :
-              <input type="number" {...register("day")} />{" "}
+              <input type="number" {...register("day")} />
             </label>
             <label>
               Enter month :
@@ -79,27 +83,32 @@ const Header = () => {
     }
   };
 
+
+  ///error message
   const errorMessage: string = errors.type?.message
     ? String(errors.type?.message)
     : "";
+
+
+
   return (
-    <header>
-      <h1>Numbers fact</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <header className=" mt-5 flex flex-col items-center justify-center gap-2">
+      <h1 className="brand font-bold">Numbers fact</h1>
+      <form className="text-center" onSubmit={handleSubmit(onSubmit)}>
         <label>
           Enter type
           <select {...register("type")} onChange={handleSelect}>
-            <option value=""></option>
+            <option value="">Enter type</option>
             <option value="trivia">Trivia</option>
             <option value="year">Year</option>
             <option value="date">Date</option>
             <option value="math">Math</option>
           </select>
         </label>
-        <div>{inputNumber()}</div>
-        <button type="submit">Submit</button>
+        <div className="mt-7 flex flex-col gap-8">{inputNumber()}</div>
+        <button className="mt-5 submit-button" type="submit">Submit</button>
       </form>
-      <p>{errorMessage}</p>
+      <p className=" text-red-400">{errorMessage}</p>
     </header>
   );
 };

@@ -1,0 +1,17 @@
+.brand {
+  font-size: xx-large;
+  margin-block: 1em;
+}
+
+select, input {
+  margin-inline: 1em;
+}
+
+.submit-button {
+  transition: 200ms;
+}
+.submit-button:hover {
+  box-shadow: 0 0 5px 5px rgba(191, 191, 191, 0.5);
+  padding-inline: 10px;
+  border-radius: 10px;
+}/*# sourceMappingURL=header.css.map */
