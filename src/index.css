@@ -1,9 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+
+option{
+  background-color: #173b5f;
+}
+
+select ,input{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  transition: 250ms;
+  border-bottom: 1px solid #fefefe;
+}
+
+input:focus {
+  padding: 1em 1em 0;
+  margin: 1em;
+  border-bottom: 3px solid #fefefe;
+}
+
+
+body {
+  background-color: #173b5f;
+  color: #fefefe;
+}
 
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
