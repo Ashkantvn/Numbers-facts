@@ -28,13 +28,15 @@ const useFetch: any = () => {
       const response = await axios(
         `http://numbersapi.com/${number()}/${inputsData?.type}`
       );
-      console.log(response.data);
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
-  const { refetch } = useQuery(["facts"], getData);
-  return [inputsData, setinputsData, refetch];
+  const {data:facts , refetch } = useQuery(["facts"], getData);
+
+
+  return [facts,inputsData, setinputsData, refetch ];
 };
 
 export default useFetch;

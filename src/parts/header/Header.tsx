@@ -6,7 +6,7 @@ import "./header.css";
 import useFetch from "../../fetchApi/fetch";
 
 const Header = () => {
-  const [inputsData,setInputsData , reFetch] = useFetch();
+  const [facts,inputsData,setInputsData , reFetch] = useFetch();
   const [selectedType, setselectedType] = useState<string | null>(null);
   ////schema of form element with yup and useform hook
   const schema = yup.object().shape({
