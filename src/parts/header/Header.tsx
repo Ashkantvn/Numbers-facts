@@ -3,9 +3,10 @@ import { BaseSyntheticEvent, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./header.css";
-
+import useFetch from "../../fetchApi/fetch";
 
 const Header = () => {
+  const [inputsData,setInputsData , reFetch] = useFetch();
   const [selectedType, setselectedType] = useState<string | null>(null);
   ////schema of form element with yup and useform hook
   const schema = yup.object().shape({
@@ -32,7 +33,10 @@ const Header = () => {
 
 
   const onSubmit = (data: {}): void => {
-    console.log(data);
+    setInputsData(data);
+    if(inputsData){
+      reFetch();
+    }
   };
 
   ////return inputs by type

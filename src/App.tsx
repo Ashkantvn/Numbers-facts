@@ -4,6 +4,7 @@ function App() {
   const client = new QueryClient({
     defaultOptions: {
       queries: {
+        enabled:false,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
       },
