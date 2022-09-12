@@ -6,8 +6,11 @@ import "./header.css";
 import useFetch from "../../fetchApi/fetch";
 
 const Header = () => {
-  const [facts,inputsData,setInputsData , reFetch] = useFetch();
+  const [facts, inputsData, setInputsData, reFetch] = useFetch();
+  const [clicked, setClicked] = useState<boolean>(false);
   const [selectedType, setselectedType] = useState<string | null>(null);
+
+  
   ////schema of form element with yup and useform hook
   const schema = yup.object().shape({
     type: yup.string().required(),
@@ -26,16 +29,29 @@ const Header = () => {
     resolver: yupResolver(schema),
   });
 
-  ////submit and select functions
+  ///error message and button name
+  const errorMessage: string|null = errors.type?.message
+    ? errors.type?.message.toString()
+    : null;
+
+  const buttonName = clicked ? "submit again" : "submit";
+
+  ////submit , click and select functions
   const handleSelect = (e: BaseSyntheticEvent) => {
     setselectedType((selectedType) => (selectedType = e.target.value));
   };
 
+  const nameOfButtonHandler = () => {
+    if(selectedType){
+      setClicked((clicked) => !clicked);
+    }
+  };
 
   const onSubmit = (data: {}): void => {
     setInputsData(data);
-    if(inputsData){
+    if (inputsData) {
       reFetch();
+      setInputsData(null);
     }
   };
 
@@ -47,7 +63,7 @@ const Header = () => {
           <>
             <label>
               Enter number :
-              <input type="number" {...register("number")} />
+              <input type="number" {...register("number")} disabled={clicked} />
             </label>
           </>
         );
@@ -56,7 +72,7 @@ const Header = () => {
           <>
             <label>
               Enter year :
-              <input type="number" {...register("year")} />
+              <input type="number" {...register("year")} disabled={clicked} />
             </label>
           </>
         );
@@ -65,11 +81,11 @@ const Header = () => {
           <>
             <label>
               Enter day :
-              <input type="number" {...register("day")} />
+              <input type="number" {...register("day")} disabled={clicked} />
             </label>
             <label>
               Enter month :
-              <input type="number" {...register("month")} />
+              <input type="number" {...register("month")} disabled={clicked} />
             </label>
           </>
         );
@@ -78,7 +94,11 @@ const Header = () => {
           <>
             <label>
               Enter math number:
-              <input type="number" {...register("math_number")} />
+              <input
+                type="number"
+                {...register("math_number")}
+                disabled={clicked}
+              />
             </label>
           </>
         );
@@ -87,21 +107,17 @@ const Header = () => {
     }
   };
 
-
-  ///error message
-  const errorMessage: string = errors.type?.message
-    ? String(errors.type?.message)
-    : "";
-
-
-
   return (
     <header className=" mt-5 flex flex-col items-center justify-center gap-2">
       <h1 className="brand font-bold">Numbers fact</h1>
       <form className="text-center" onSubmit={handleSubmit(onSubmit)}>
         <label>
           Enter type
-          <select {...register("type")} onChange={handleSelect}>
+          <select
+            {...register("type")}
+            onChange={handleSelect}
+            disabled={clicked}
+          >
             <option value="">Enter type</option>
             <option value="trivia">Trivia</option>
             <option value="year">Year</option>
@@ -110,7 +126,13 @@ const Header = () => {
           </select>
         </label>
         <div className="mt-7 flex flex-col gap-8">{inputNumber()}</div>
-        <button className="mt-5 submit-button" type="submit">Submit</button>
+        <button
+          onClick={nameOfButtonHandler}
+          className="mt-5 submit-button"
+          type="submit"
+        >
+          {buttonName}
+        </button>
       </form>
       <p className=" text-red-400">{errorMessage}</p>
     </header>
