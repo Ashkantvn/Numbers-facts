@@ -1,4 +1,5 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient,QueryClientProvider } from "@tanstack/react-query";
+import Header from "./parts/header/Header";
 function App() {
   const client = new QueryClient({
     defaultOptions: {
@@ -10,7 +11,7 @@ function App() {
   });
   return (
     <QueryClientProvider client={client}>
-      <div className="container">App</div>
+      <div className="container"><Header/></div>
     </QueryClientProvider>
   );
 }
